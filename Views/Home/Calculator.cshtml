@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Basic Calculator in Angular 2";
+}
+
+<h2>Angular2 Calculator</h2>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="~/Content/CSS/AntlitzCalculator.css">
+</head>
+<body onkeypress="keypress(event)">
+    <div id="main" class="calculator">
+        <div id="input" class="input">0</div>
+        <br>
+        <button id="btn7" onclick="btnclick(this.innerText)">7</button>
+        <button id="btn8" onclick="btnclick(this.innerText)">8</button>
+        <button id="btn9" onclick="btnclick(this.innerText)">9</button>
+        <br>
+        <button id="btn4" onclick="btnclick(this.innerText)">4</button>
+        <button id="btn5" onclick="btnclick(this.innerText)">5</button>
+        <button id="btn6" onclick="btnclick(this.innerText)">6</button>
+        <br>
+        <button id="btn1" onclick="btnclick(this.innerText)">1</button>
+        <button id="btn2" onclick="btnclick(this.innerText)">2</button>
+        <button id="btn3" onclick="btnclick(this.innerText)">3</button>
+        <br>
+        <button id="btnDivide" onclick="btnclick(this.innerText)">/</button>
+        <button id="btn0" onclick="btnclick(this.innerText)">0</button>
+        <button id="btnClear" onclick="btnclick(this.innerText)">C</button>
+        <br>
+        <button id="btnPlus" onclick="btnclick(this.innerText)">+</button>
+        <button id="btnMinus" onclick="btnclick(this.innerText)">-</button>
+        <button id="btnMultiply" onclick="btnclick(this.innerText)">x</button>
+        <br>
+        <button id="btnEqual" onclick="btnclick(this.innerText)">=</button>
+    </div>
+    <script>
+        let val = 0;
+        let old = 0;
+        let op = "=";
+        let isClean = true;
+
+        function btnclick(text) {
+            let input = document.getElementById("input");
+
+            switch (text) {
+                case "C":
+                case "c":
+                    val = 0;
+                    old = 0;
+                    op = "=";
+                    isClean = true;
+                    break;
+                case "x":
+                case "X":
+                case "/":
+                case "*":
+                case "+":
+                case "-":
+                case "=":
+                    let v = evalOp(op, old, val);
+                    if (!isClean)
+                        old = val;
+                    val = v;
+                    op = text;
+                    isClean = true;
+                    break;
+                default:
+                    if (isDigit(text)) {
+                        let d = evalDigit(text);
+                        if (isClean) {
+                            old = val;
+                            val = d;
+                        }
+                        else {
+                            val = (val * 10) + d;
+                        }
+                        isClean = false;
+                    }
+                    break;
+            }
+
+            input.innerHTML = val;
+        }
+
+        function evalDigit(c) {
+            return c - "0";
+        }
+
+        function isDigit(c) {
+            return c >= "0" && c <= "9";
+        }
+
+        function evalOp(c, m, n) {
+            switch (c) {
+                case "=": return n;
+                case "+": return m + n;
+                case "-": return m - n;
+                case "*":
+                case "x":
+                case "X":
+                    return m * n;
+                case "/":
+                    return m / n;
+            }
+        }
+
+
+        function keypress(event) {
+            let input = "";
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                input = "=";
+            }
+            else if (event.which == null)
+                input = String.fromCharCode(event.keycode);
+            else if (event.which != 0 && event.charCode != 0)
+                input = String.fromCharCode(event.which);
+            console.log(input);
+            btnclick(input)
+        }
+    </script>
+</body>
+</html>
