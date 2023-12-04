@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\Images",
-    "\\Views"
+    "\\Views",
+    "\\Views\\Home",
+    "\\Views\\Shared"
   ],
-  "SelectedNode": "\\Views\\Blog",
   "PreviewInSolutionExplorer": false
 }
